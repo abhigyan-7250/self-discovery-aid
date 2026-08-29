@@ -12,6 +12,8 @@ export type Theme = {
   insight: string;
   action: string;
   closing: string;
+  /** small closing takeaway shown on the final summary screen */
+  takeaway: string;
 };
 
 export const EXAMPLE_JOURNAL =
@@ -20,7 +22,7 @@ export const EXAMPLE_JOURNAL =
 const PRESENTATION: Theme = {
   id: "presentation",
   title: "Presentation",
-  subtitle: "Fear of being judged",
+  subtitle: "Concern about being judged",
   tone: "challenge",
   question:
     "You mentioned worrying about whether people thought you were prepared. What part of being judged feels most uncomfortable?",
@@ -31,6 +33,7 @@ const PRESENTATION: Theme = {
   action:
     "Before your next presentation, write down what \u201cprepared enough\u201d actually means to you and use that as your benchmark.",
   closing: "Would having your own definition of \u201cprepared enough\u201d take some of the pressure off?",
+  takeaway: "Sometimes the pressure eases when you get to decide what \u201cgood enough\u201d means.",
 };
 
 const FRIENDSHIP: Theme = {
@@ -47,12 +50,13 @@ const FRIENDSHIP: Theme = {
   action:
     "Next time, pause before assuming the reason and give yourself one alternative explanation for their behavior.",
   closing: "Would holding one alternative explanation make the uncertainty easier to sit with?",
+  takeaway: "Sometimes not knowing is easier to hold when it isn't automatically about you.",
 };
 
 const ASSIGNMENT: Theme = {
   id: "assignment",
   title: "Assignment",
-  subtitle: "Procrastination and overwhelm",
+  subtitle: "Feeling overwhelmed and avoiding starting",
   tone: "challenge",
   question:
     "You mentioned that you keep postponing the assignment even though you know it's due Friday. When you think about starting it, what feels hardest?",
@@ -63,12 +67,13 @@ const ASSIGNMENT: Theme = {
   action:
     "Tomorrow, spend 15 minutes creating only the assignment outline. The goal isn't to finish it \u2014 just to make starting easier.",
   closing: "Would making the first step smaller make starting feel easier?",
+  takeaway: "Sometimes making the first step smaller can make the whole problem feel more manageable.",
 };
 
 const WORKOUT: Theme = {
   id: "workout",
   title: "Workout",
-  subtitle: "Improved mood",
+  subtitle: "Improved mood after exercise",
   tone: "positive",
   question:
     "You noticed that you felt much better after your workout. What do you think changed for you?",
@@ -79,6 +84,7 @@ const WORKOUT: Theme = {
   action:
     "On a stressful day this week, try a short 15-minute walk or workout before deciding the day is going badly.",
   closing: "Would treating movement as an early reset rather than a reward be worth trying?",
+  takeaway: "Sometimes the fastest way to change a heavy day is to move your body first.",
 };
 
 const PERFORMANCE: Theme = {
@@ -123,6 +129,7 @@ const GENERIC: Theme = {
   action:
     "Tonight, write two sentences: one about what actually happened, and one about what you wish had happened instead.",
   closing: "Would naming it in your own words make it feel a little clearer?",
+  takeaway: "Sometimes putting something into your own words is enough to make it feel lighter.",
 };
 
 export const SOMETHING_ELSE: Theme = {
