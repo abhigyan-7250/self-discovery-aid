@@ -33,7 +33,7 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-type Stage = "welcome" | "journal" | "loading" | "map" | "explore";
+type Stage = "welcome" | "journal" | "loading" | "map" | "explore" | "summary" | "reflections";
 type ExploreStep = "question" | "mirror" | "insight";
 
 const STORAGE_KEY = "ajc.journal";
@@ -48,6 +48,9 @@ function Index() {
   const [affirm, setAffirm] = useState<"yes" | "maybe" | "no" | null>(null);
   const [closingChoice, setClosingChoice] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [saved, setSaved] = useState<SavedReflection[]>([]);
+  const [justSaved, setJustSaved] = useState(false);
+  const [returnStage, setReturnStage] = useState<Stage>("welcome");
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
@@ -57,6 +60,7 @@ function Index() {
     } catch {
       /* storage unavailable — the session simply starts empty */
     }
+    setSaved(loadReflections());
   }, []);
 
   useEffect(() => {
@@ -100,6 +104,33 @@ function Index() {
   function backToMap() {
     setStage("map");
     setTheme(null);
+    setJustSaved(false);
+  }
+
+  function openReflections() {
+    setReturnStage(stage === "reflections" ? returnStage : stage);
+    setSaved(loadReflections());
+    setStage("reflections");
+  }
+
+  function saveCurrent() {
+    if (!theme) return;
+    setSaved(
+      saveReflection({
+        journal,
+        themes: themes.map((t) => ({ title: t.title, subtitle: t.subtitle })),
+        selectedTheme: theme.title,
+        conversation: {
+          question: theme.question,
+          answer,
+          mirror: theme.mirror,
+          affirm,
+        },
+        insight: theme.insight,
+        action: theme.action,
+      }),
+    );
+    setJustSaved(true);
   }
 
   function startOver() {
@@ -110,11 +141,21 @@ function Index() {
     setAnswer("");
     setAffirm(null);
     setClosingChoice(null);
+    setJustSaved(false);
     persist("");
   }
 
   return (
-    <Chrome>
+    <Chrome
+      headerAction={
+        <button
+          onClick={openReflections}
+          className="text-[10px] uppercase tracking-[0.22em] text-muted-ink underline decoration-line underline-offset-4 transition-colors hover:text-ink"
+        >
+          My reflections
+        </button>
+      }
+    >
       {stage === "welcome" && (
         <Welcome onStart={() => setStage("journal")} />
       )}
@@ -162,6 +203,26 @@ function Index() {
           onClosing={setClosingChoice}
           onBack={backToMap}
           onNew={startOver}
+          onFinish={() => setStage("summary")}
+        />
+      )}
+
+      {stage === "summary" && theme && (
+        <Summary
+          themes={themes}
+          theme={theme}
+          saved={justSaved}
+          onSave={saveCurrent}
+          onBack={backToMap}
+          onNew={startOver}
+          onReflections={openReflections}
+        />
+      )}
+
+      {stage === "reflections" && (
+        <Reflections
+          items={saved}
+          onBack={() => setStage(returnStage === "reflections" ? "welcome" : returnStage)}
         />
       )}
     </Chrome>
@@ -406,6 +467,7 @@ function Explore({
   onClosing,
   onBack,
   onNew,
+  onFinish,
 }: {
   theme: Theme;
   step: ExploreStep;
@@ -418,6 +480,7 @@ function Explore({
   onClosing: (v: string) => void;
   onBack: () => void;
   onNew: () => void;
+  onFinish: () => void;
 }) {
   return (
     <section className="py-14 sm:py-20">
@@ -552,7 +615,13 @@ function Explore({
                     Noted — that's enough to work with for today.
                   </p>
                 )}
-                <div className="mt-6 flex flex-col items-start gap-2">
+                <div className="mt-6 flex flex-col items-start gap-3">
+                  <button
+                    onClick={onFinish}
+                    className="rounded-full bg-ink px-5 py-2.5 text-sm font-medium text-ivory ring-1 ring-ink/10 transition-transform duration-300 hover:-translate-y-0.5"
+                  >
+                    See your reflection today
+                  </button>
                   <button
                     onClick={onBack}
                     className="text-sm text-ink underline decoration-line underline-offset-4"
