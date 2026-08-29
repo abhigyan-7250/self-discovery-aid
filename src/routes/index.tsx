@@ -654,3 +654,196 @@ function Explore({
     </section>
   );
 }
+
+/* ---------------------------------- 07 ---------------------------------- */
+
+function Summary({
+  themes,
+  theme,
+  saved,
+  onSave,
+  onBack,
+  onNew,
+  onReflections,
+}: {
+  themes: Theme[];
+  theme: Theme;
+  saved: boolean;
+  onSave: () => void;
+  onBack: () => void;
+  onNew: () => void;
+  onReflections: () => void;
+}) {
+  return (
+    <section className="py-14 sm:py-20">
+      <p className="jz jz-1 text-[11px] uppercase tracking-[0.24em] text-challenge">
+        07 · Closing reflection
+      </p>
+      <h2 className="jz jz-1 mt-5 max-w-[22ch] text-balance font-display text-4xl leading-[1.05] tracking-[-0.01em] sm:text-5xl">
+        Your reflection today
+      </h2>
+      <p className="jz jz-2 mt-4 max-w-[44ch] text-pretty text-sm text-muted-ink">
+        Here's what you're taking away from today.
+      </p>
+
+      <div className="mt-10 grid gap-6 lg:grid-cols-12">
+        <div className="jz jz-2 lg:col-span-5">
+          <div className="rounded-[18px] bg-card p-6 shadow-card ring-1 ring-ink/5">
+            <span className="text-[10px] uppercase tracking-[0.2em] text-muted-ink">
+              What stood out
+            </span>
+            <ul className="mt-4 space-y-4">
+              {themes.map((t) => (
+                <li key={t.id} className="flex gap-3">
+                  <span className={`mt-1.5 size-2 shrink-0 rounded-full ${toneBg(t.tone)}`} />
+                  <div>
+                    <p className="font-display text-[17px] tracking-tight">{t.title}</p>
+                    <p className="mt-0.5 text-sm text-muted-ink">{t.subtitle}</p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <div className="lg:col-span-7 space-y-6">
+          <div className="jz jz-2 relative rounded-[18px] bg-paper p-6 ring-1 ring-ink/5">
+            <div
+              className={`absolute -top-2.5 left-8 h-5 w-14 rotate-[-3deg] rounded-[2px] shadow-sm ${toneTape(theme.tone)}`}
+            />
+            <span className="text-[10px] uppercase tracking-[0.2em] text-muted-ink">
+              What you discovered
+            </span>
+            <p className="mt-3 font-display text-[17px] italic leading-relaxed text-ink/90">
+              {theme.insight}
+            </p>
+          </div>
+
+          <div className="jz jz-3 relative rounded-[20px] bg-ink p-7 shadow-paper">
+            <div className="absolute -top-2.5 left-8 h-5 w-14 rotate-[3deg] rounded-[2px] bg-positive/50 shadow-sm" />
+            <span className="text-[10px] uppercase tracking-[0.2em] text-ivory/60">
+              Your next step
+            </span>
+            <p className="mt-3 font-display text-2xl leading-snug text-ivory">{theme.action}</p>
+          </div>
+
+          <div className="jz jz-3 border-t border-line/70 pt-6">
+            <span className="text-[10px] uppercase tracking-[0.2em] text-muted-ink">
+              A small takeaway
+            </span>
+            <p className="mt-3 max-w-[46ch] font-display text-lg italic leading-relaxed text-ink/90">
+              {theme.takeaway}
+            </p>
+          </div>
+
+          <div className="jz jz-3 flex flex-wrap items-center gap-3">
+            <button
+              onClick={onBack}
+              className="rounded-full bg-ink px-5 py-2.5 text-sm font-medium text-ivory ring-1 ring-ink/10 transition-transform duration-300 hover:-translate-y-0.5"
+            >
+              Explore another part of my day
+            </button>
+            <button
+              onClick={onNew}
+              className="rounded-full px-5 py-2.5 text-sm font-medium text-muted-ink ring-1 ring-line transition-transform duration-300 hover:-translate-y-0.5"
+            >
+              Start a new reflection
+            </button>
+            <button
+              onClick={onSave}
+              className="rounded-full px-5 py-2.5 text-sm font-medium text-muted-ink ring-1 ring-line transition-transform duration-300 hover:-translate-y-0.5"
+            >
+              Save this reflection
+            </button>
+            {saved && (
+              <span className="inline-flex items-center gap-2 text-xs text-positive">
+                <span className="size-1.5 rounded-full bg-positive" /> Reflection saved
+              </span>
+            )}
+          </div>
+
+          {saved && (
+            <button
+              onClick={onReflections}
+              className="text-xs text-muted-ink underline decoration-line underline-offset-4 hover:text-ink"
+            >
+              View my reflections
+            </button>
+          )}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ------------------------------ My reflections -------------------------- */
+
+function Reflections({
+  items,
+  onBack,
+}: {
+  items: SavedReflection[];
+  onBack: () => void;
+}) {
+  return (
+    <section className="py-14 sm:py-20">
+      <div className="flex items-start justify-between gap-4">
+        <div>
+          <p className="jz jz-1 text-[11px] uppercase tracking-[0.24em] text-challenge">
+            My reflections
+          </p>
+          <h2 className="jz jz-1 mt-5 max-w-[22ch] text-balance font-display text-4xl leading-[1.05] tracking-[-0.01em]">
+            Reflections you've saved
+          </h2>
+        </div>
+        <button
+          onClick={onBack}
+          className="mt-2 shrink-0 text-xs text-muted-ink underline decoration-line underline-offset-4 hover:text-ink"
+        >
+          ← Back
+        </button>
+      </div>
+
+      {items.length === 0 ? (
+        <p className="jz jz-2 mt-8 max-w-[40ch] text-sm text-muted-ink">
+          Nothing saved yet. Once you finish a reflection, you can keep it here.
+        </p>
+      ) : (
+        <div className="jz jz-2 mt-9 space-y-5">
+          {items.map((r) => (
+            <article
+              key={r.id}
+              className="rounded-[18px] bg-card p-6 shadow-card ring-1 ring-ink/5"
+            >
+              <p className="text-[10px] uppercase tracking-[0.2em] text-muted-ink">
+                {formatDate(r.date)}
+              </p>
+              <p className="mt-4 font-display text-lg italic leading-snug text-ink/90">
+                “{r.journal.slice(0, 120)}
+                {r.journal.length > 120 ? "…" : ""}”
+              </p>
+              <dl className="mt-5 space-y-3 border-t border-line/70 pt-5 text-sm">
+                <div>
+                  <dt className="text-[10px] uppercase tracking-[0.2em] text-muted-ink">
+                    Explored
+                  </dt>
+                  <dd className="mt-1 text-ink">{r.selectedTheme}</dd>
+                </div>
+                <div>
+                  <dt className="text-[10px] uppercase tracking-[0.2em] text-muted-ink">Insight</dt>
+                  <dd className="mt-1 text-muted-ink">{r.insight}</dd>
+                </div>
+                <div>
+                  <dt className="text-[10px] uppercase tracking-[0.2em] text-muted-ink">
+                    Next step
+                  </dt>
+                  <dd className="mt-1 text-ink">{r.action}</dd>
+                </div>
+              </dl>
+            </article>
+          ))}
+        </div>
+      )}
+    </section>
+  );
+}
