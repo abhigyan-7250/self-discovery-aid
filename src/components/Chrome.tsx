@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 
-export function Chrome({ children }: { children: ReactNode }) {
+export function Chrome({ children, headerAction }: { children: ReactNode; headerAction?: ReactNode }) {
   return (
     <div className="min-h-screen bg-ivory font-body text-ink selection:bg-challenge/20">
       <div className="mx-auto flex min-h-screen max-w-[1180px] flex-col px-5 sm:px-8">
@@ -11,9 +11,12 @@ export function Chrome({ children }: { children: ReactNode }) {
             </span>
             <span className="font-display text-[17px] tracking-tight">AI Journal Coach</span>
           </div>
-          <span className="hidden text-[10px] uppercase tracking-[0.22em] text-muted-ink sm:block">
-            Guided reflection
-          </span>
+          <div className="flex items-center gap-5">
+            <span className="hidden text-[10px] uppercase tracking-[0.22em] text-muted-ink sm:block">
+              Guided reflection
+            </span>
+            {headerAction}
+          </div>
         </header>
 
         <main className="flex-1">{children}</main>
