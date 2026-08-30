@@ -17,7 +17,7 @@ import {
 } from "@/lib/saved";
 
 
-const TITLE = "AI Journal Coach — Understand your day";
+const TITLE = "MirrorMind — Understand your day";
 const DESCRIPTION =
   "Write freely about your day and get a reflection map of what stood out, one guided insight, and one small next step.";
 
