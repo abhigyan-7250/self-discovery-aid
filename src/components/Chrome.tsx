@@ -9,7 +9,7 @@ export function Chrome({ children, headerAction }: { children: ReactNode; header
             <span className="grid size-7 place-items-center rounded-md bg-ink font-display text-[15px] text-ivory">
               A
             </span>
-            <span className="font-display text-[17px] tracking-tight">AI Journal Coach</span>
+            <span className="font-display text-[17px] tracking-tight">MirrorMind</span>
           </div>
           <div className="flex items-center gap-5">
             <span className="hidden text-[10px] uppercase tracking-[0.22em] text-muted-ink sm:block">
@@ -23,7 +23,7 @@ export function Chrome({ children, headerAction }: { children: ReactNode; header
 
         <footer className="mt-auto flex flex-col gap-2 border-t border-line/70 py-7 sm:flex-row sm:items-center sm:justify-between">
           <span className="text-xs text-muted-ink">
-            AI Journal Coach is designed for self-reflection and personal growth, not medical or
+            MirrorMind is designed for self-reflection and personal growth, not medical or
             mental-health diagnosis or treatment.
           </span>
           <span className="shrink-0 text-[10px] uppercase tracking-[0.2em] text-muted-ink/70">
